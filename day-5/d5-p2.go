@@ -71,9 +71,12 @@ func main() {
   instructions := parseInstructions(lines)
 
   for _, inst := range instructions {
-    var x string
-    x, stacks[inst.source] = stacks[inst.source][len(stacks[inst.source]) - 1], stacks[inst.source][:len(stacks[inst.source]) - 1]
-    stacks[inst.destination] = append(stacks[inst.destination], x)
+    src := &stacks[inst.source]
+    dest := &stacks[inst.destination]
+
+    moved := (*src)[len(*src) - inst.number:]
+    *src = (*src)[:len(*src) - inst.number]
+    *dest = append(*dest, moved...)
   }
 
   fmt.Println(stacks)
