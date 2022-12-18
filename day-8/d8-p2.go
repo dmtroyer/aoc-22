@@ -41,7 +41,7 @@ func parseLinesToMatrix(lines []string) [][]uint8 {
 	return matrix
 }
 
-func scenicScoreToNorth(matrix *[][]uint8, i int, j int) (int) {
+func scenicScoreToNorth(matrix *[][]uint8, i int, j int) int {
 	score := 0
 	height := (*matrix)[i][j]
 
@@ -54,7 +54,7 @@ func scenicScoreToNorth(matrix *[][]uint8, i int, j int) (int) {
 	return score
 }
 
-func scenicScoreToEast(matrix *[][]uint8, i int, j int) (int) {
+func scenicScoreToEast(matrix *[][]uint8, i int, j int) int {
 	score := 0
 	height := (*matrix)[i][j]
 
@@ -67,7 +67,7 @@ func scenicScoreToEast(matrix *[][]uint8, i int, j int) (int) {
 	return score
 }
 
-func scenicScoreToSouth(matrix *[][]uint8, i int, j int) (int) {
+func scenicScoreToSouth(matrix *[][]uint8, i int, j int) int {
 	score := 0
 	height := (*matrix)[i][j]
 
@@ -80,7 +80,7 @@ func scenicScoreToSouth(matrix *[][]uint8, i int, j int) (int) {
 	return score
 }
 
-func scenicScoreToWest(matrix *[][]uint8, i int, j int) (int) {
+func scenicScoreToWest(matrix *[][]uint8, i int, j int) int {
 	score := 0
 	height := (*matrix)[i][j]
 
