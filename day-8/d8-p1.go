@@ -1,10 +1,10 @@
 package main
 
 import (
-  "bufio"
-  "fmt"
-  "log"
-  "os"
+	"bufio"
+	"fmt"
+	"log"
+	"os"
 	"strconv"
 )
 
@@ -15,17 +15,17 @@ const VISIBLE_FROM_EAST_FLAG = uint8(1 << 5)
 const VISIBLE_FROM_SOUTH_FLAG = uint8(1 << 4)
 
 func parseLines() []string {
-  scanner := bufio.NewScanner(os.Stdin)
-  var lines []string
+	scanner := bufio.NewScanner(os.Stdin)
+	var lines []string
 
-  for scanner.Scan() {
-    lines = append(lines, scanner.Text())
-  }
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
 
-  err := scanner.Err()
-  if err != nil {
-    log.Fatal(err)
-  }
+	err := scanner.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return lines
 }
@@ -53,14 +53,14 @@ func calcRowVisibility(matrix [][]uint8) {
 		var j int
 
 		for j = 0; j < len(matrix[i]); j++ {
-			if j == 0 || matrix[i][j] & TREE_HEIGHT_MASK > high {
+			if j == 0 || (matrix[i][j]&TREE_HEIGHT_MASK) > high {
 				high = matrix[i][j] & TREE_HEIGHT_MASK
 				matrix[i][j] |= VISIBLE_FROM_WEST_FLAG
 			}
 		}
 
 		for j--; j >= 0; j-- {
-			if j == len(matrix[i]) - 1 || matrix[i][j] & TREE_HEIGHT_MASK > high {
+			if j == len(matrix[i])-1 || (matrix[i][j]&TREE_HEIGHT_MASK) > high {
 				high = matrix[i][j] & TREE_HEIGHT_MASK
 				matrix[i][j] |= VISIBLE_FROM_EAST_FLAG
 			}
@@ -74,14 +74,14 @@ func calcColVisibility(matrix [][]uint8) {
 		var j int
 
 		for j = 0; j < len(matrix); j++ {
-			if j == 0 || matrix[j][i] & TREE_HEIGHT_MASK > high {
+			if j == 0 || (matrix[j][i]&TREE_HEIGHT_MASK) > high {
 				high = matrix[j][i] & TREE_HEIGHT_MASK
 				matrix[j][i] |= VISIBLE_FROM_NORTH_FLAG
 			}
 		}
 
 		for j--; j >= 0; j-- {
-			if j == len(matrix[i]) - 1 || matrix[j][i] & TREE_HEIGHT_MASK > high {
+			if j == len(matrix[i])-1 || (matrix[j][i]&TREE_HEIGHT_MASK) > high {
 				high = matrix[j][i] & TREE_HEIGHT_MASK
 				matrix[j][i] |= VISIBLE_FROM_SOUTH_FLAG
 			}
@@ -92,7 +92,7 @@ func calcColVisibility(matrix [][]uint8) {
 func numVisibleTrees(matrix [][]uint8) int {
 	n := 0
 	for i := 0; i < len(matrix); i++ {
-		for j:= 0; j < len(matrix[i]); j++ {
+		for j := 0; j < len(matrix[i]); j++ {
 			if matrix[i][j] > TREE_HEIGHT_MASK {
 				n++
 			}
