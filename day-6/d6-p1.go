@@ -38,7 +38,7 @@ func main() {
 
 	for _, line := range lines {
 		for i := 4; i <= len(line); i++ {
-			if !containsDups(line[i-4:i]) {
+			if !containsDups(line[i-4 : i]) {
 				fmt.Println(i)
 				break
 			}
