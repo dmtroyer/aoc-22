@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 )
 
@@ -18,12 +19,12 @@ const (
 
 type RopeMotion struct {
 	direction Direction
-	distance  uint8
+	distance  int
 }
 
 type Point struct {
-	x float32
-	y float32
+	x int
+	y int
 }
 
 func parseLines() []string {
@@ -40,6 +41,14 @@ func parseLines() []string {
 	}
 
 	return lines
+}
+
+func distance(p1 Point, p2 Point) float64 {
+	return math.Sqrt((float64(p2.x-p1.x) * float64(p2.x-p1.x)) + (float64(p2.y-p1.y) * float64(p2.y-p1.y)))
+}
+
+func withinOneSpace(p1 Point, p2 Point) bool {
+	return (math.Abs(float64(p2.x-p1.x)) <= 1 && math.Abs(float64(p2.y-p1.y)) <= 1)
 }
 
 func parseMotions(lines []string) []RopeMotion {
@@ -60,15 +69,15 @@ func main() {
 	lines := parseLines()
 	motions := parseMotions(lines)
 
-	head := Point{x: 0.0, y: 0.0}
-	// tail := Knot{x: 0, y: 0}
-	visited := make(map[Point]bool)
+	head := Point{x: 0, y: 0}
+	tail := Point{x: 0, y: 0}
+	visited := map[Point]bool{tail: true}
 
 	for _, motion := range motions {
-		var i uint8
 		//  I think, if the head and tail are one space apart (diagonally or horizontally) after the move, the head's space before the move will not be counted.
-    // However, if the head and tail are more than one space apart after the move, the tail will follow to where the head prevously was.
-		for i = 0; i < motion.distance; i++ {
+		// However, if the head and tail are more than one space apart after the move, the tail will follow to where the head prevously was.
+		for i := 0; i < motion.distance; i++ {
+			prev := head
 			switch motion.direction {
 			case Up:
 				head.y++
@@ -79,10 +88,12 @@ func main() {
 			case Right:
 				head.x++
 			}
+			if !withinOneSpace(tail, head) {
+				tail = prev
+				visited[tail] = true
+			}
 		}
-		visited[head] = true
 	}
 
-	fmt.Println(head)
-	fmt.Println(visited)
+	fmt.Println(len(visited))
 }
